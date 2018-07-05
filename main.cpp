@@ -1,6 +1,11 @@
 #include <iostream>
+#include <sys/stat.h>
+#include <stdio.h>
 
 using namespace std;
+
+const string FILE_NAME = "kill.me";
+bool exists(string name);
 
 int main(void) {
   
@@ -18,7 +23,19 @@ int main(void) {
   cout<<" dancing monkey!"<<endl;
   cout<<""<<endl;
 
-  cin.ignore();
-
+  bool run = true;
+  while(run) {
+    if(exists(FILE_NAME)) {
+      if(remove(FILE_NAME.c_str()) == 0) {
+        run = false;
+      }
+    }
+  }
+  
   return 0;
+}
+
+bool exists(string name) {
+  struct stat buffer;
+  return (stat (name.c_str(), &buffer) == 0);
 }
